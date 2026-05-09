@@ -181,4 +181,4 @@ cython_debug/
 .cursorindexingignore
 
 venv311/
-credentials.json
+Credentials.json
