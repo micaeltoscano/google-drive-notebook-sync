@@ -182,3 +182,4 @@ cython_debug/
 
 venv311/
 Credentials.json
+token.json
