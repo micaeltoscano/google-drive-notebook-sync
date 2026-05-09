@@ -7,6 +7,9 @@ from models.model import Files
 from schemas.schemas import  FileSchema
 from core.deps import get_session
 
+from services.sync_services import sync_notebooks as sync_drive_notebooks
+
+
 router = APIRouter()
 
 @router.get('/notebooks', response_model=list[FileSchema]) 
@@ -40,5 +43,10 @@ async def delete_notebook(file_id: int, db: AsyncSession = Depends(get_session))
         await session.delete(file)
         await session.commit()
 
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@router.post('/notebooks/sync', status_code=status.HTTP_204_NO_CONTENT)
+async def sync_notebooks(db: AsyncSession = Depends(get_session)):
+    await sync_drive_notebooks(db)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
