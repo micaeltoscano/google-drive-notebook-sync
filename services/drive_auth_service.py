@@ -5,7 +5,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 def get_credentials() -> Credentials:
     creds = None
@@ -30,12 +30,19 @@ def _list_shared_notebooks() -> list[dict]:
     service = build("drive", "v3", credentials=creds)
 
     results = service.files().list(
-        q="sharedWithMe=true and mimeType='application/x-ipynb+json'",
+        q="'1X_EApxP9iLXVO8ZdzoY43ry8-nhjwZGw' in parents",
         pageSize=50,
         fields="files(id, name, modifiedTime, size)"
     ).execute()
 
     return results.get("files", [])
+
+def _get_notebook_content(file_id: str) -> bytes:
+    creds = get_credentials()
+    service = build("drive", "v3", credentials=creds)
+
+    request = service.files().get_media(fileId=file_id)
+    return request.execute()
 
 async def list_shared_notebooks() -> list[dict]:
     return await asyncio.to_thread(_list_shared_notebooks)
