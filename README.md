@@ -22,6 +22,7 @@ The project is currently in the initial backend development phase.
 - Environment variable configuration
 - Table creation scripts
 - ORM models
+- Docker support
 
 ### In Progress
 
@@ -38,7 +39,6 @@ The project is currently in the initial backend development phase.
 - Notebook version control
 - AI-powered notebook analysis
 - Authentication system
-- Docker support
 - Deployment pipeline
 
 ---
